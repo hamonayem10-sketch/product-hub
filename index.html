@@ -38,8 +38,7 @@
             </h1>
             <nav class="space-x-3 md:space-x-4 text-sm font-medium">
                 <a href="#home" class="hover:text-blue-400 transition">হোম</a>
-                <a href="#upload" class="hover:text-blue-400 transition">প্রোডাক্ট আপলোড</a>
-                <a href="#admin" class="hover:text-blue-400 bg-blue-600 px-3 py-1.5 rounded-md shadow transition hover:bg-blue-700">অ্যাডমিন ড্যাশবোর্ড</a>
+                <a href="#" onclick="openAdminLogin(event)" class="hover:text-blue-400 bg-blue-600 px-3 py-1.5 rounded-md shadow transition hover:bg-blue-700">অ্যাডমিন ড্যাশবোর্ড</a>
             </nav>
         </div>
     </header>
@@ -54,116 +53,79 @@
                     <h2 class="text-2xl font-black text-navyPrimary">সকল প্রোডাক্টসমূহ</h2>
                     <p class="text-sm text-slate-500">আপনার পছন্দের প্রিমিয়াম প্রোডাক্টটি বেছে নিন এবং অর্ডার করুন।</p>
                 </div>
-                <span id="totalProductCountBadge" class="text-xs bg-slate-200 text-slate-700 font-bold px-2.5 py-1 rounded-full">মোট: ২ টি</span>
+                <span id="totalProductCountBadge" class="text-xs bg-slate-200 text-slate-700 font-bold px-2.5 py-1 rounded-full">মোট: ০ টি</span>
             </div>
 
             <!-- Product Grid -->
             <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- Product Card 1 -->
-                <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between daraz-card">
-                    <div>
-                        <div class="overflow-hidden rounded-lg mb-2 bg-slate-100 h-32">
-                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" alt="Headphone" class="w-full h-32 object-cover transition duration-500 hover:scale-110">
-                        </div>
-                        <h3 class="font-bold text-sm text-slate-800 line-clamp-1">Wireless Headphone</h3>
-                        <p class="text-blue-600 font-black text-sm mt-1">৳ ২,৫০০</p>
-                    </div>
-                    <button onclick="openOrderModal('Wireless Headphone', 2500)" class="mt-3 w-full bg-navyPrimary text-white text-xs font-semibold py-2 rounded-lg hover:bg-blue-600 transition shadow-sm">অর্ডার করুন</button>
-                </div>
-                <!-- Product Card 2 -->
-                <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between daraz-card">
-                    <div>
-                        <div class="overflow-hidden rounded-lg mb-2 bg-slate-100 h-32">
-                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300" alt="Watch" class="w-full h-32 object-cover transition duration-500 hover:scale-110">
-                        </div>
-                        <h3 class="font-bold text-sm text-slate-800 line-clamp-1">Smart Watch</h3>
-                        <p class="text-blue-600 font-black text-sm mt-1">৳ ৩,২০০</p>
-                    </div>
-                    <button onclick="openOrderModal('Smart Watch', 3200)" class="mt-3 w-full bg-navyPrimary text-white text-xs font-semibold py-2 rounded-lg hover:bg-blue-600 transition shadow-sm">অর্ডার করুন</button>
-                </div>
+                <!-- Dynamic Products will load here -->
             </div>
         </section>
 
-        <!-- Product Upload Section -->
-        <section id="upload" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-            <h2 class="text-xl font-black text-navyPrimary mb-1">নতুন প্রোডাক্ট আপলোড করুন</h2>
-            <p class="text-xs text-slate-500 mb-4">আপনার প্রোডাক্টের বিবরণ দিয়ে নিম্নে আপলোড করুন, যা সাথে সাথে হোমপেজে যোগ হবে।</p>
-            
-            <form id="productUploadForm" onsubmit="handleProductUpload(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-700">প্রোডাক্টের নাম</label>
-                    <input type="text" id="pName" placeholder="যেমন: Stylish Sunglass" required class="w-full p-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold mb-1 text-slate-700">দাম (টাকা)</label>
-                    <input type="number" id="pPrice" placeholder="যেমন: ১২০০" required class="w-full p-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-xs font-bold mb-1 text-slate-700">প্রোডাক্টের ছবি (Image URL অথবা ফাইল)</label>
-                    <input type="text" id="pImage" placeholder="ছবির ডিরেক্ট লিংক (Image URL) দিন অথবা নিচের ফাইল সিলেক্ট করুন" class="w-full p-2.5 text-sm border border-slate-300 rounded-lg mb-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    <input type="file" id="pImageFile" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-slate-200 rounded-lg p-1">
-                </div>
-                <div>
-                    <button type="submit" class="bg-blue-600 text-white px-5 py-2.5 text-sm font-bold rounded-lg hover:bg-blue-700 transition shadow-md">প্রোডাক্ট পাবলিশ করুন</button>
-                </div>
-            </form>
-        </section>
-
-        <!-- Admin Dashboard Section -->
-        <section id="admin" class="bg-navySecondary text-white p-6 rounded-2xl shadow-xl">
-            <div class="flex justify-between items-center mb-6">
+        <!-- Admin Dashboard Section (Hidden by default until login) -->
+        <section id="adminSection" class="hidden bg-navySecondary text-white p-6 rounded-2xl shadow-xl space-y-6">
+            <div class="flex justify-between items-center">
                 <div>
                     <h2 class="text-xl font-black">অ্যাডমিন ড্যাশবোর্ড</h2>
-                    <p class="text-xs text-slate-400">রিয়েল-টাইম স্ট্যাট ও অর্ডার ম্যানেজমেন্ট</p>
+                    <p class="text-xs text-slate-400">প্রোডাক্ট ম্যানেজমেন্ট ও কাস্টমার অর্ডার লিস্ট</p>
                 </div>
-                <span class="text-xs bg-emerald-500/20 text-emerald-400 font-bold px-3 py-1 rounded-full border border-emerald-500/30 flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> লাইভ অ্যাক্টিভ
-                </span>
+                <button onclick="logoutAdmin()" class="text-xs bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-lg font-bold transition">লগআউট</button>
+            </div>
+
+            <!-- Product Upload Box for Admin -->
+            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
+                <h3 class="text-base font-bold text-white mb-3">নতুন প্রোডাক্ট যোগ করুন</h3>
+                <form id="productUploadForm" onsubmit="handleProductUpload(event)" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div>
+                        <label class="block font-bold mb-1 text-slate-300">প্রোডাক্টের নাম</label>
+                        <input type="text" id="pName" placeholder="নাম লিখুন" required class="w-full p-2.5 border border-slate-600 bg-slate-900 rounded-lg text-white">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1 text-slate-300">দাম (টাকা)</label>
+                        <input type="number" id="pPrice" placeholder="দাম লিখুন" required class="w-full p-2.5 border border-slate-600 bg-slate-900 rounded-lg text-white">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1 text-slate-300">ছবির লিংক (Image URL)</label>
+                        <input type="text" id="pImage" placeholder="https://..." required class="w-full p-2.5 border border-slate-600 bg-slate-900 rounded-lg text-white">
+                    </div>
+                    <div class="md:col-span-3">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg transition">প্রোডাক্ট পাবলিশ করুন</button>
+                    </div>
+                </form>
             </div>
 
             <!-- Analytics Cards -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 shadow-inner">
-                    <p class="text-xs text-slate-400 font-medium">মোট ভিজিটর</p>
-                    <h3 class="text-xl font-black mt-1 text-slate-100">১২,৪৫০</h3>
-                </div>
-                <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 shadow-inner">
-                    <p class="text-xs text-slate-400 font-medium">রেজিস্টার্ড ইউজার</p>
-                    <h3 class="text-xl font-black mt-1 text-slate-100">৮৫০</h3>
-                </div>
-                <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 shadow-inner">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
                     <p class="text-xs text-slate-400 font-medium">মোট প্রোডাক্ট</p>
-                    <h3 id="statTotalProducts" class="text-xl font-black mt-1 text-blue-400">২</h3>
+                    <h3 id="statTotalProducts" class="text-xl font-black mt-1 text-blue-400">০</h3>
                 </div>
-                <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80 shadow-inner">
-                    <p class="text-xs text-slate-400 font-medium">নতুন অর্ডার</p>
-                    <h3 id="statTotalOrders" class="text-xl font-black mt-1 text-emerald-400">১</h3>
+                <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+                    <p class="text-xs text-slate-400 font-medium">মোট অর্ডার</p>
+                    <h3 id="statTotalOrders" class="text-xl font-black mt-1 text-emerald-400">০</h3>
+                </div>
+                <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 col-span-2 md:col-span-1">
+                    <p class="text-xs text-slate-400 font-medium">স্ট্যাটাস</p>
+                    <h3 class="text-sm font-bold mt-2 text-emerald-400 flex items-center gap-1">● ফুল সিক্যুরড অ্যাডমিন</h3>
                 </div>
             </div>
 
-            <!-- Orders Table -->
+            <!-- Full Orders List Table -->
             <div class="bg-slate-800/90 rounded-xl p-4 overflow-x-auto border border-slate-700">
-                <h3 class="font-bold mb-3 text-sm text-slate-200">সাম্প্রতিক অর্ডার ও পেমেন্ট স্ট্যাটাস</h3>
+                <h3 class="font-bold mb-3 text-sm text-slate-200">সকল কাস্টমার অর্ডার ও ঠিকানা (লিস্ট)</h3>
                 <table class="w-full text-left text-xs whitespace-nowrap">
                     <thead>
                         <tr class="border-b border-slate-700 text-slate-400">
                             <th class="pb-2.5 font-semibold">গ্রাহকের নাম</th>
+                            <th class="pb-2.5 font-semibold">মোবাইল নম্বর</th>
                             <th class="pb-2.5 font-semibold">প্রোডাক্ট</th>
-                            <th class="pb-2.5 font-semibold">লোকেশন</th>
-                            <th class="pb-2.5 font-semibold">ডেলিভারি চার্জ</th>
-                            <th class="pb-2.5 font-semibold">TrxID (বিকাশ/নগদ)</th>
-                            <th class="pb-2.5 font-semibold">স্ট্যাটাস</th>
+                            <th class="pb-2.5 font-semibold">এলাকা ও ঠিকানা</th>
+                            <th class="pb-2.5 font-semibold">TrxID</th>
+                            <th class="pb-2.5 font-semibold">অ্যাকশন</th>
                         </tr>
                     </thead>
                     <tbody id="ordersTableBody" class="divide-y divide-slate-700/50">
-                        <tr>
-                            <td class="py-3 font-medium">রহিম উদ্দিন</td>
-                            <td class="py-3 text-slate-300">Wireless Headphone</td>
-                            <td class="py-3">ঢাকার ভেতরে (৳১০০)</td>
-                            <td class="py-3 text-green-400 font-semibold">পরিশোধিত</td>
-                            <td class="py-3 font-mono text-blue-300">9K78X21L</td>
-                            <td class="py-3"><span class="bg-yellow-500/20 text-yellow-400 px-2.5 py-1 rounded-md font-semibold text-[10px]">পেন্ডিং</span></td>
-                        </tr>
+                        <!-- Dynamic Orders -->
                     </tbody>
                 </table>
             </div>
@@ -171,9 +133,27 @@
 
     </main>
 
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl">
+            <h3 class="text-lg font-black text-navyPrimary mb-2">অ্যাডমিন লগইন</h3>
+            <p class="text-xs text-slate-500 mb-4">ড্যাশবোর্ড এক্সেস করতে পাসওয়ার্ড দিন।</p>
+            <form onsubmit="verifyAdmin(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold mb-1 text-slate-700">পাসওয়ার্ড</label>
+                    <input type="password" id="adminPasswordInput" placeholder="পাসওয়ার্ড দিন (যেমন: 1234)" required class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeAdminLogin()" class="px-3 py-1.5 bg-slate-200 rounded-lg font-bold">বাতিল</button>
+                    <button type="submit" class="px-4 py-1.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700">লগইন</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Order Modal (Popup) -->
     <div id="orderModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl animate-in fade-in zoom-in duration-200">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl">
             <div class="flex justify-between items-center mb-2">
                 <h3 class="text-lg font-black text-navyPrimary" id="modalProductName">অর্ডার কনফার্ম করুন</h3>
                 <button onclick="closeOrderModal()" class="text-slate-400 hover:text-slate-600 font-bold text-lg">&times;</button>
@@ -189,54 +169,52 @@
             <form id="orderSubmitForm" onsubmit="handleOrderSubmit(event)" class="space-y-3 text-xs">
                 <div>
                     <label class="block font-bold mb-1 text-slate-700">আপনার নাম</label>
-                    <input type="text" id="orderCustomerName" placeholder="পুরো নাম লিখুন" required class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="text" id="orderCustomerName" placeholder="পুরো নাম লিখুন" required class="w-full p-2.5 border border-slate-300 rounded-lg">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 text-slate-700">মোবাইল নম্বর</label>
-                    <input type="text" id="orderCustomerPhone" placeholder="যে নম্বর থেকে টাকা পাঠিয়েছেন" required class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="text" id="orderCustomerPhone" placeholder="আপনার মোবাইল নম্বর" required class="w-full p-2.5 border border-slate-300 rounded-lg font-mono">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 text-slate-700">ডেলিভারি এলাকা</label>
-                    <select id="locationSelect" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <select id="locationSelect" class="w-full p-2.5 border border-slate-300 rounded-lg">
                         <option value="ঢাকার ভেতরে (৳১০০)">ঢাকার ভেতরে (১০০ টাকা)</option>
                         <option value="ঢাকার বাইরে (৳১৫০)">ঢাকার বাইরে (১৫০ টাকা)</option>
                     </select>
                 </div>
                 <div>
                     <label class="block font-bold mb-1 text-slate-700">পূর্ণাঙ্গ ঠিকানা</label>
-                    <textarea id="orderAddress" placeholder="বাসা/রোড, থানা, জেলা" required class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" rows="2"></textarea>
+                    <textarea id="orderAddress" placeholder="বাসা/রোড, থানা, জেলা" required class="w-full p-2.5 border border-slate-300 rounded-lg" rows="2"></textarea>
                 </div>
                 <div>
                     <label class="block font-bold mb-1 text-slate-700">বিকাশ/নগদ TrxID (ট্রানজ্যাকশন আইডি)</label>
-                    <input type="text" id="orderTrxId" placeholder="যেমন: 8N79..." required class="w-full p-2.5 border border-slate-300 rounded-lg font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="text" id="orderTrxId" placeholder="যেমন: 8N79..." required class="w-full p-2.5 border border-slate-300 rounded-lg font-mono">
                 </div>
                 <div class="flex justify-end space-x-2 pt-2">
-                    <button type="button" onclick="closeOrderModal()" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-lg hover:bg-slate-300 transition">বাতিল</button>
-                    <button type="submit" class="px-5 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-md">অর্ডার সাবমিট করুন</button>
+                    <button type="button" onclick="closeOrderModal()" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-lg">বাতিল</button>
+                    <button type="submit" class="px-5 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700">অর্ডার সাবমিট করুন</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Script / LocalStorage Logic & Daraz Animations -->
+    <!-- Script / Logic -->
     <script>
         let selectedProductForOrder = '';
         let selectedProductPrice = 0;
+        const ADMIN_PASS = "1234"; // আপনার ইচ্ছামতো পাসওয়ার্ড বদলাতে পারেন
 
-        // Default initial products
         let defaultProducts = [
-            { name: 'Wireless Headphone', price: 2500, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300' },
-            { name: 'Smart Watch', price: 3200, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300' }
+            { id: 1, name: 'Wireless Headphone', price: 2500, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300' },
+            { id: 2, name: 'Smart Watch', price: 3200, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300' }
         ];
 
-        let defaultOrders = [
-            { name: 'রহিম উদ্দিন', product: 'Wireless Headphone', location: 'ঢাকার ভেতরে (৳১০০)', statusPay: 'পরিশোধিত', trx: '9K78X21L', status: 'পেন্ডিং' }
-        ];
-
-        // Load data on start
         window.onload = function() {
             loadProducts();
-            loadOrders();
+            if(localStorage.getItem('isAdminLoggedIn') === 'true') {
+                document.getElementById('adminSection').classList.remove('hidden');
+                loadOrders();
+            }
         };
 
         function loadProducts() {
@@ -245,6 +223,10 @@
             
             let gridHtml = '';
             products.forEach(p => {
+                let deleteBtnAdmin = localStorage.getItem('isAdminLoggedIn') === 'true' 
+                    ? `<button onclick="deleteProduct(${p.id})" class="mt-2 w-full bg-red-600 text-white text-[11px] font-bold py-1.5 rounded-lg hover:bg-red-700 transition">প্রোডাক্ট ডিলিট করুন</button>` 
+                    : '';
+
                 gridHtml += `
                 <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 flex flex-col justify-between daraz-card">
                     <div>
@@ -254,7 +236,10 @@
                         <h3 class="font-bold text-sm text-slate-800 line-clamp-1">${p.name}</h3>
                         <p class="text-blue-600 font-black text-sm mt-1">৳ ${Number(p.price).toLocaleString('bn-BD')}</p>
                     </div>
-                    <button onclick="openOrderModal('${p.name}', ${p.price})" class="mt-3 w-full bg-navyPrimary text-white text-xs font-semibold py-2 rounded-lg hover:bg-blue-600 transition shadow-sm">অর্ডার করুন</button>
+                    <div>
+                        <button onclick="openOrderModal('${p.name}', ${p.price})" class="mt-3 w-full bg-navyPrimary text-white text-xs font-semibold py-2 rounded-lg hover:bg-blue-600 transition shadow-sm">অর্ডার করুন</button>
+                        ${deleteBtnAdmin}
+                    </div>
                 </div>`;
             });
             document.getElementById('productGrid').innerHTML = gridHtml;
@@ -262,36 +247,70 @@
             document.getElementById('statTotalProducts').innerText = products.length;
         }
 
+        function deleteProduct(id) {
+            if(confirm('আপনি কি সত্যিই এই প্রোডাক্টটি ডিলিট করতে চান?')) {
+                let savedProducts = localStorage.getItem('productHub_items');
+                let products = savedProducts ? JSON.parse(savedProducts) : defaultProducts;
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('productHub_items', JSON.stringify(products));
+                loadProducts();
+            }
+        }
+
         function handleProductUpload(event) {
             event.preventDefault();
             let name = document.getElementById('pName').value;
             let price = document.getElementById('pPrice').value;
-            let imageUrl = document.getElementById('pImage').value;
-            let imageFile = document.getElementById('pImageFile').files[0];
+            let image = document.getElementById('pImage').value;
 
-            let finalImage = imageUrl ? imageUrl : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300';
-
-            if (imageFile) {
-                let reader = new FileReader();
-                reader.onload = function(uploadEvent) {
-                    saveNewProduct(name, price, uploadEvent.target.result);
-                };
-                reader.readAsDataURL(imageFile);
-            } else {
-                saveNewProduct(name, price, finalImage);
-            }
-        }
-
-        function saveNewProduct(name, price, image) {
             let savedProducts = localStorage.getItem('productHub_items');
             let products = savedProducts ? JSON.parse(savedProducts) : defaultProducts;
 
-            products.push({ name, price, image });
+            let newId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
+            products.push({ id: newId, name, price, image });
             localStorage.setItem('productHub_items', JSON.stringify(products));
 
             document.getElementById('productUploadForm').reset();
             loadProducts();
-            alert('প্রোডাক্ট সফলভাবে আপলোড ও যোগ করা হয়েছে!');
+            alert('নতুন প্রোডাক্ট সফলভাবে যোগ করা হয়েছে!');
+        }
+
+        function openAdminLogin(event) {
+            event.preventDefault();
+            if(localStorage.getItem('isAdminLoggedIn') === 'true') {
+                document.getElementById('adminSection').classList.remove('hidden');
+                document.getElementById('adminSection').scrollIntoView({ behavior: 'smooth' });
+                loadOrders();
+            } else {
+                document.getElementById('adminLoginModal').classList.remove('hidden');
+            }
+        }
+
+        function closeAdminLogin() {
+            document.getElementById('adminLoginModal').classList.add('hidden');
+        }
+
+        function verifyAdmin(event) {
+            event.preventDefault();
+            let pass = document.getElementById('adminPasswordInput').value;
+            if(pass === ADMIN_PASS) {
+                localStorage.setItem('isAdminLoggedIn', 'true');
+                closeAdminLogin();
+                document.getElementById('adminSection').classList.remove('hidden');
+                document.getElementById('adminSection').scrollIntoView({ behavior: 'smooth' });
+                loadProducts();
+                loadOrders();
+                alert('অ্যাডমিন প্যানেলে সফলভাবে লগইন হয়েছে!');
+            } else {
+                alert('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।');
+            }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem('isAdminLoggedIn');
+            document.getElementById('adminSection').classList.add('hidden');
+            loadProducts();
+            alert('লগআউট করা হয়েছে।');
         }
 
         function openOrderModal(productName, price) {
@@ -308,46 +327,66 @@
         function handleOrderSubmit(event) {
             event.preventDefault();
             let name = document.getElementById('orderCustomerName').value;
+            let phone = document.getElementById('orderCustomerPhone').value;
             let location = document.getElementById('locationSelect').value;
+            let address = document.getElementById('orderAddress').value;
             let trx = document.getElementById('orderTrxId').value;
 
             let savedOrders = localStorage.getItem('productHub_orders');
-            let orders = savedOrders ? JSON.parse(savedOrders) : defaultOrders;
+            let orders = savedOrders ? JSON.parse(savedOrders) : [];
 
             orders.unshift({
                 name: name,
+                phone: phone,
                 product: selectedProductForOrder,
                 location: location,
-                statusPay: 'পরিশোধিত',
-                trx: trx,
-                status: 'পেন্ডিং'
+                address: address,
+                trx: trx
             });
 
             localStorage.setItem('productHub_orders', JSON.stringify(orders));
             document.getElementById('orderSubmitForm').reset();
             closeOrderModal();
-            loadOrders();
             alert('আপনার অর্ডার সফলভাবে সাবমিট হয়েছে!');
+            if(localStorage.getItem('isAdminLoggedIn') === 'true') {
+                loadOrders();
+            }
         }
 
         function loadOrders() {
             let savedOrders = localStorage.getItem('productHub_orders');
-            let orders = savedOrders ? JSON.parse(savedOrders) : defaultOrders;
+            let orders = savedOrders ? JSON.parse(savedOrders) : [];
 
             let orderHtml = '';
-            orders.forEach(o => {
-                orderHtml += `
-                <tr>
-                    <td class="py-3 font-medium">${o.name}</td>
-                    <td class="py-3 text-slate-300">${o.product}</td>
-                    <td class="py-3">${o.location}</td>
-                    <td class="py-3 text-green-400 font-semibold">${o.statusPay}</td>
-                    <td class="py-3 font-mono text-blue-300">${o.trx}</td>
-                    <td class="py-3"><span class="bg-yellow-500/20 text-yellow-400 px-2.5 py-1 rounded-md font-semibold text-[10px]">${o.status}</span></td>
-                </tr>`;
-            });
+            if(orders.length === 0) {
+                orderHtml = `<tr><td colspan="6" class="py-4 text-center text-slate-400">এখনো কোনো নতুন অর্ডার নেই।</td></tr>`;
+            } else {
+                orders.forEach((o, index) => {
+                    orderHtml += `
+                    <tr>
+                        <td class="py-3 font-bold text-white">${o.name}</td>
+                        <td class="py-3 font-mono text-emerald-400">${o.phone}</td>
+                        <td class="py-3 text-slate-200">${o.product}</td>
+                        <td class="py-3 text-slate-300">${o.location} - ${o.address}</td>
+                        <td class="py-3 font-mono text-blue-300 font-bold">${o.trx}</td>
+                        <td class="py-3">
+                            <button onclick="deleteOrder(${index})" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded text-[10px] font-bold">মুছে ফেলুন</button>
+                        </td>
+                    </tr>`;
+                });
+            }
             document.getElementById('ordersTableBody').innerHTML = orderHtml;
             document.getElementById('statTotalOrders').innerText = orders.length;
+        }
+
+        function deleteOrder(index) {
+            if(confirm('এই অর্ডারটি লিস্ট থেকে ডিলিট করতে চান?')) {
+                let savedOrders = localStorage.getItem('productHub_orders');
+                let orders = savedOrders ? JSON.parse(savedOrders) : [];
+                orders.splice(index, 1);
+                localStorage.setItem('productHub_orders', JSON.stringify(orders));
+                loadOrders();
+            }
         }
     </script>
 </body>
