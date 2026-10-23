@@ -70,7 +70,6 @@
                     <p class="text-xs text-slate-400">প্রোডাক্ট ম্যানেজমেন্ট ও কাস্টমার অর্ডার লিস্ট</p>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="openChangePasswordModal()" class="text-xs bg-amber-600 hover:bg-amber-700 px-3 py-1.5 rounded-lg font-bold transition">পাসওয়ার্ড পরিবর্তন</button>
                     <button onclick="logoutAdmin()" class="text-xs bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-lg font-bold transition">লগআউট</button>
                 </div>
             </div>
@@ -136,32 +135,20 @@
 
     </main>
 
-    <!-- Admin Auth Modal (Dynamic: Setup or Login) -->
+    <!-- Admin Auth Modal -->
     <div id="adminAuthModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl">
-            <h3 id="authModalTitle" class="text-lg font-black text-navyPrimary mb-2">অ্যাডমিন লগইন</h3>
-            <p id="authModalDesc" class="text-xs text-slate-500 mb-4">ড্যাশবোর্ড এক্সেস করতে পাসওয়ার্ড দিন।</p>
+            <h3 class="text-lg font-black text-navyPrimary mb-2">অ্যাডমিন লগইন</h3>
+            <p class="text-xs text-slate-500 mb-4">ড্যাশবোর্ড এক্সেস করতে পাসওয়ার্ড দিন।</p>
             
             <form id="adminAuthForm" onsubmit="handleAdminAuth(event)" class="space-y-3 text-xs">
-                <div id="setupPassFields" class="hidden space-y-3">
-                    <div>
-                        <label class="block font-bold mb-1 text-slate-700">আপনার পছন্দমতো পাসওয়ার্ড দিন</label>
-                        <input type="password" id="setupNewPass" placeholder="নতুন পাসওয়ার্ড লিখুন" class="w-full p-2.5 border border-slate-300 rounded-lg">
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-1 text-slate-700">কনফার্ম পাসওয়ার্ড</label>
-                        <input type="password" id="setupConfirmPass" placeholder="পুনরায় পাসওয়ার্ডটি লিখুন" class="w-full p-2.5 border border-slate-300 rounded-lg">
-                    </div>
+                <div>
+                    <label class="block font-bold mb-1 text-slate-700">এডমিন পাসওয়ার্ড দিন</label>
+                    <input type="password" id="adminPasswordInput" placeholder="এডমিন পাসওয়ার্ড দিন" required class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
-
-                <div id="loginPassField">
-                    <label id="passLabel" class="block font-bold mb-1 text-slate-700">পাসওয়ার্ড</label>
-                    <input type="password" id="adminPasswordInput" placeholder="আপনার পাসওয়ার্ড দিন" class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                </div>
-
                 <div class="flex justify-end space-x-2 pt-2">
                     <button type="button" onclick="closeAdminAuth()" class="px-3 py-1.5 bg-slate-200 rounded-lg font-bold">বাতিল</button>
-                    <button type="submit" id="authSubmitBtn" class="px-4 py-1.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700">লগইন</button>
+                    <button type="submit" class="px-4 py-1.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700">লগইন</button>
                 </div>
             </form>
         </div>
@@ -214,8 +201,11 @@
         </div>
     </div>
 
-    <!-- Script / Logic -->
+    <!-- Script -->
     <script>
+        // আপনার দেওয়া নির্দিষ্ট মাস্টার পাসওয়ার্ড
+        const MASTER_ADMIN_PASS = "0182923";
+
         let selectedProductForOrder = '';
         let selectedProductPrice = 0;
 
@@ -309,89 +299,28 @@
                 loadOrders();
                 return;
             }
-
-            let savedPass = localStorage.getItem('productHub_adminPass');
-            let modalTitle = document.getElementById('authModalTitle');
-            let modalDesc = document.getElementById('authModalDesc');
-            let setupPassFields = document.getElementById('setupPassFields');
-            let loginPassField = document.getElementById('loginPassField');
-            let submitBtn = document.getElementById('authSubmitBtn');
-
-            if(!savedPass) {
-                // First time password setup by the real admin
-                modalTitle.innerText = "অ্যাডমিন পাসওয়ার্ড সেটআপ";
-                modalDesc.innerText = "আপনার সাইটের জন্য আপনার পছন্দের একটি পাসওয়ার্ড সেট করুন।";
-                setupPassFields.classList.remove('hidden');
-                loginPassField.classList.add('hidden');
-                submitBtn.innerText = "পাসওয়ার্ড সেট করুন";
-            } else {
-                // Login prompt for subsequent visits
-                modalTitle.innerText = "অ্যাডমিন লগইন";
-                modalDesc.innerText = "ড্যাশবোর্ড এক্সেস করতে আপনার পাসওয়ার্ড দিন।";
-                setupPassFields.classList.add('hidden');
-                loginPassField.classList.remove('hidden');
-                submitBtn.innerText = "লগইন";
-                document.getElementById('adminPasswordInput').value = '';
-            }
+            document.getElementById('adminPasswordInput').value = '';
             document.getElementById('adminAuthModal').classList.remove('hidden');
         }
 
         function closeAdminAuth() {
             document.getElementById('adminAuthModal').classList.add('hidden');
-            document.getElementById('adminAuthForm').reset();
         }
 
         function handleAdminAuth(event) {
             event.preventDefault();
-            let savedPass = localStorage.getItem('productHub_adminPass');
+            let inputPass = document.getElementById('adminPasswordInput').value;
 
-            if(!savedPass) {
-                let newPass = document.getElementById('setupNewPass').value;
-                let confirmPass = document.getElementById('setupConfirmPass').value;
-
-                if(!newPass || newPass.trim() === "") {
-                    alert('দয়া করে পাসওয়ার্ড দিন।');
-                    return;
-                }
-                if(newPass !== confirmPass) {
-                    alert('পাসওয়ার্ড দুটি মিলছে না! আবার চেষ্টা করুন।');
-                    return;
-                }
-                localStorage.setItem('productHub_adminPass', newPass);
+            if(inputPass === MASTER_ADMIN_PASS) {
                 localStorage.setItem('isAdminLoggedIn', 'true');
                 closeAdminAuth();
                 document.getElementById('adminSection').classList.remove('hidden');
                 document.getElementById('adminSection').scrollIntoView({ behavior: 'smooth' });
                 loadProducts();
                 loadOrders();
-                alert('পাসওয়ার্ড সফলভাবে সেট হয়েছে এবং লগইন সম্পন্ন হয়েছে!');
+                alert('অ্যাডমিন প্যানেলে সফলভাবে লগইন হয়েছে!');
             } else {
-                let inputPass = document.getElementById('adminPasswordInput').value;
-                if(inputPass === savedPass) {
-                    localStorage.setItem('isAdminLoggedIn', 'true');
-                    closeAdminAuth();
-                    document.getElementById('adminSection').classList.remove('hidden');
-                    document.getElementById('adminSection').scrollIntoView({ behavior: 'smooth' });
-                    loadProducts();
-                    loadOrders();
-                    alert('অ্যাডমিন প্যানেলে সফলভাবে লগইন হয়েছে!');
-                } else {
-                    alert('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।');
-                }
-            }
-        }
-
-        function openChangePasswordModal() {
-            let currentPass = prompt('বর্তমান পাসওয়ার্ড দিন:');
-            let savedPass = localStorage.getItem('productHub_adminPass');
-            if(currentPass === savedPass) {
-                let newPass = prompt('নতুন পাসওয়ার্ড দিন:');
-                if(newPass && newPass.trim() !== "") {
-                    localStorage.setItem('productHub_adminPass', newPass);
-                    alert('পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!');
-                }
-            } else if(currentPass !== null) {
-                alert('বর্তমান পাসওয়ার্ড ভুল হয়েছে!');
+                alert('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।');
             }
         }
 
