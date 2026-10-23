@@ -52,7 +52,10 @@
         <!-- Home Section / Product Showcase -->
         <section id="home">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-navyPrimary">সকল প্রোডাক্ট</h2>
+                <div>
+                    <h2 class="text-2xl font-bold text-navyPrimary">সকল প্রোডাক্টসমূহ</h2>
+                    <p class="text-xs text-slate-500">আপনার পছন্দের প্রিমিয়াম প্রোডাক্টটি বেছে নিন এবং অর্ডার করুন।</p>
+                </div>
                 <span id="product-count" class="text-sm bg-slate-200 px-3 py-1 rounded-full font-medium">লোড হচ্ছে...</span>
             </div>
 
@@ -64,33 +67,56 @@
 
         <!-- Admin Modal / Portal (Hidden by default) -->
         <div id="admin-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4">
-            <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 space-y-4 relative">
+            <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 space-y-4 relative max-h-[90vh] overflow-y-auto">
                 <button onclick="closeAdminPortal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
                 
                 <h3 id="admin-modal-title" class="text-xl font-bold text-navyPrimary">অ্যাডমিন লগইন</h3>
                 
                 <!-- Login Form -->
                 <div id="admin-login-form" class="space-y-4">
-                    <p class="text-sm text-slate-600">অ্যাডমিন প্যানেলে প্রবেশ করতে মাস্টার পাসওয়ার্ড দিন।</p>
-                    <input type="password" id="admin-password" placeholder="পাসওয়ার্ড দিন (যেমন: 0182923)" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    <p class="text-sm text-slate-600">অ্যাডমিন প্যানেলে প্রবেশ করতে পাসওয়ার্ড দিন।</p>
+                    <input type="password" id="admin-password" placeholder="পাসওয়ার্ড দিন" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600">
                     <button onclick="verifyAdminPassword()" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition">লগইন করুন</button>
                 </div>
 
                 <!-- Admin Dashboard Actions (Hidden initially) -->
                 <div id="admin-dashboard" class="space-y-4 hidden">
-                    <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 font-medium">
-                        স্বাগতম! আপনি সফলভাবে অ্যাডমিন হিসেবে যুক্ত হয়েছেন।
+                    <div class="flex justify-between items-center bg-slate-900 text-white p-3 rounded-lg">
+                        <div>
+                            <h4 class="font-bold text-sm">অ্যাডমিন ড্যাশবোর্ড</h4>
+                            <p class="text-xs text-slate-400">রিয়েলটাইম প্রোডাক্ট ম্যানেজমেন্ট</p>
+                        </div>
+                        <button onclick="logoutAdmin()" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs transition">লগআউট</button>
                     </div>
-                    <div class="space-y-3">
-                        <h4 class="font-bold text-slate-700">নতুন প্রোডাক্ট যোগ করুন</h4>
-                        <input type="text" id="new-p-name" placeholder="প্রোডাক্টের নাম" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
-                        <input type="text" id="new-p-price" placeholder="দাম (যেমন: 500 টাকা)" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
-                        <input type="text" id="new-p-img" placeholder="ছবির লিংক (Image URL)" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
-                        <button onclick="addNewProduct()" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-medium hover:bg-emerald-700 transition">প্রোডাক্ট সেভ করুন</button>
+
+                    <div class="bg-slate-50 p-4 rounded-lg border space-y-3">
+                        <h4 class="font-bold text-slate-700 text-sm">নতুন প্রোডাক্ট যোগ করুন</h4>
+                        <input type="text" id="new-p-name" placeholder="প্রোডাক্টের নাম" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+                        <input type="text" id="new-p-price" placeholder="দাম (যেমন: ২,৫০০ টাকা)" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+                        
+                        <div class="flex gap-2 items-center">
+                            <input type="text" id="new-p-img" placeholder="ছবির লিংক (Image URL)" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+                            <label class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-2.5 rounded-lg cursor-pointer whitespace-nowrap">
+                                ফাইল থেকে ছবি <input type="file" id="image-file-input" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+                            </label>
+                        </div>
+                        
+                        <button onclick="addNewProduct()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium text-sm transition">প্রোডাক্ট পাবলিশ করুন</button>
                     </div>
-                    <hr>
+
+                    <div class="grid grid-cols-2 gap-2 text-center">
+                        <div class="bg-slate-100 p-2 rounded border">
+                            <span class="block text-xs text-slate-500">মোট প্রোডাক্ট</span>
+                            <span id="admin-total-prod" class="font-bold text-blue-600">0</span>
+                        </div>
+                        <div class="bg-slate-100 p-2 rounded border">
+                            <span class="block text-xs text-slate-500">স্ট্যাটাস</span>
+                            <span class="font-bold text-xs text-emerald-600">🟢 লাইভ সিঙ্ক্রোনাইজড</span>
+                        </div>
+                    </div>
+
                     <div>
-                        <h4 class="font-bold text-slate-700 mb-2">বিদ্যমান প্রোডাক্ট ডিলিট করুন</h4>
+                        <h4 class="font-bold text-slate-700 text-sm mb-2">বিদ্যমান প্রোডাক্ট ডিলিট করুন</h4>
                         <div id="admin-product-list" class="max-h-40 overflow-y-auto space-y-2 text-sm">
                             <!-- ডিলিট করার লিস্ট এখানে দেখাবে -->
                         </div>
@@ -103,7 +129,7 @@
 
     <!-- Firebase Script & App Logic -->
     <script>
-        // আপনার ফায়ারবেস কনফিগারেশন
+        // ফায়ারবেস কনফিগারেশন
         const firebaseConfig = {
             apiKey: "AIzaSyD0yAVMLW8gpfv_b6TJzxOmKP01nR0Tp5s",
             authDomain: "producthub-5926c.firebaseapp.com",
@@ -115,16 +141,33 @@
         };
 
         // ফায়ারবেস ইনিশিয়ালাইজ করা
-        firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.firestore();
 
         const MASTER_PASS = "0182923";
+        let uploadedImageBase64 = "";
+
+        // লোকাল ফাইল থেকে ছবি কনভার্ট করার ফাংশন
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageBase64 = e.target.result;
+                    document.getElementById("new-p-img").value = "লোকাল ছবি সিলেক্ট করা হয়েছে ✅";
+                };
+                reader.readAsDataURL(file);
+            }
+        }
 
         // রিয়েল-টাইমে ফায়ারস্টোর থেকে প্রোডাক্ট লোড করা
         db.collection("products").onSnapshot((snapshot) => {
             const grid = document.getElementById("product-grid");
             const adminList = document.getElementById("admin-product-list");
             const countBadge = document.getElementById("product-count");
+            const adminTotalProd = document.getElementById("admin-total-prod");
             
             grid.innerHTML = "";
             adminList.innerHTML = "";
@@ -135,35 +178,43 @@
             });
 
             countBadge.innerText = `মোট প্রোডাক্ট: ${products.length}`;
+            adminTotalProd.innerText = products.length;
 
             if(products.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-slate-500 py-10">কোনো প্রোডাক্ট পাওয়া যায়নি। অ্যাডমিন প্যানেل থেকে নতুন প্রোডাক্ট যোগ করুন।</p>`;
+                grid.innerHTML = `<p class="col-span-full text-center text-slate-500 py-10">কোনো প্রোডাক্ট পাওয়া যায়নি। অ্যাডমিন প্যানেল থেকে নতুন প্রোডাক্ট যোগ করুন।</p>`;
+                adminList.innerHTML = `<p class="text-xs text-slate-400 text-center py-2">কোনো প্রোডাক্ট নেই</p>`;
                 return;
             }
 
             products.forEach(p => {
+                let imgSource = p.image || 'https://via.placeholder.com/150';
+
                 // ইউজার হোমপেজ কার্ড
                 grid.innerHTML += `
                     <div class="bg-white rounded-lg shadow daraz-card p-3 flex flex-col justify-between">
                         <div>
-                            <img src="${p.image || 'https://via.placeholder.com/150'}" alt="${p.name}" class="w-full h-40 object-cover rounded-md mb-3 bg-slate-100">
+                            <img src="${imgSource}" alt="${p.name}" class="w-full h-40 object-cover rounded-md mb-3 bg-slate-100">
                             <h3 class="font-semibold text-sm text-slate-800 line-clamp-2">${p.name}</h3>
                         </div>
                         <div class="mt-3">
                             <p class="text-blue-600 font-bold text-base mb-2">${p.price}</p>
-                            <a href="https://wa.me/?text=I want to buy ${encodeURIComponent(p.name)} - ${encodeURIComponent(p.price)}" target="_blank" class="block text-center bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2 rounded transition">অর্ডার করুন</a>
+                            <a href="https://wa.me/?text=I want to buy ${encodeURIComponent(p.name)} - ${encodeURIComponent(p.price)}" target="_blank" class="block text-center bg-navyPrimary hover:bg-blue-600 text-white text-xs font-bold py-2 rounded transition">অর্ডার করুন</a>
                         </div>
                     </div>
                 `;
 
                 // অ্যাডমিন ড্যাশবোর্ড ডিলেট লিস্ট
                 adminList.innerHTML += `
-                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded border">
-                        <span class="truncate w-36">${p.name}</span>
-                        <button onclick="deleteProduct('${p.id}')" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs">ডিলিট</button>
+                    <div class="flex justify-between items-center bg-white p-2 rounded border shadow-sm">
+                        <span class="truncate w-40 text-xs font-medium">${p.name}</span>
+                        <button onclick="deleteProduct('${p.id}')" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs transition">ডিলিট</button>
                     </div>
                 `;
             });
+        }, (error) => {
+            console.error("Firestore Error: ", error);
+            document.getElementById("product-count").innerText = "কানেকশন এরর!";
+            document.getElementById("product-grid").innerHTML = `<p class="col-span-full text-center text-red-500 py-10">ডেটা লোড করতে সমস্যা হচ্ছে।</p>`;
         });
 
         // অ্যাডমিন পোর্টাল ওপেন/ক্লোজ ফাংশন
@@ -178,6 +229,13 @@
             document.getElementById("admin-login-form").classList.remove("hidden");
             document.getElementById("admin-dashboard").classList.add("hidden");
             document.getElementById("admin-modal-title").innerText = "অ্যাডমিন লগইন";
+        }
+
+        function logoutAdmin() {
+            document.getElementById("admin-login-form").classList.remove("hidden");
+            document.getElementById("admin-dashboard").classList.add("hidden");
+            document.getElementById("admin-modal-title").innerText = "অ্যাডমিন লগইন";
+            document.getElementById("admin-password").value = "";
         }
 
         // পাসওয়ার্ড চেক করার ফাংশন
@@ -196,17 +254,24 @@
         function addNewProduct() {
             const name = document.getElementById("new-p-name").value.trim();
             const price = document.getElementById("new-p-price").value.trim();
-            const image = document.getElementById("new-p-img").value.trim();
+            const imageUrlInput = document.getElementById("new-p-img").value.trim();
 
             if(!name || !price) {
                 alert("দয়া করে অন্তত প্রোডাক্টের নাম এবং দাম লিখুন!");
                 return;
             }
 
+            let finalImage = "https://via.placeholder.com/150";
+            if (uploadedImageBase64) {
+                finalImage = uploadedImageBase64;
+            } else if (imageUrlInput && !imageUrlInput.includes("লোকাল ছবি")) {
+                finalImage = imageUrlInput;
+            }
+
             db.collection("products").add({
                 name: name,
                 price: price,
-                image: image || "https://via.placeholder.com/150",
+                image: finalImage,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             })
             .then(() => {
@@ -214,6 +279,7 @@
                 document.getElementById("new-p-name").value = "";
                 document.getElementById("new-p-price").value = "";
                 document.getElementById("new-p-img").value = "";
+                uploadedImageBase64 = "";
             })
             .catch((error) => {
                 console.error("ত্রুটি ঘটেছে: ", error);
