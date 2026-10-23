@@ -38,7 +38,7 @@
             </h1>
             <nav class="space-x-3 md:space-x-4 text-sm font-medium">
                 <a href="#home" class="hover:text-blue-400 transition">হোম</a>
-                <a href="#" onclick="openAdminLogin(event)" class="hover:text-blue-400 bg-blue-600 px-3 py-1.5 rounded-md shadow transition hover:bg-blue-700">অ্যাডমিন ড্যাশবোর্ড</a>
+                <a href="#" onclick="openAdminPortal(event)" class="hover:text-blue-400 bg-blue-600 px-3 py-1.5 rounded-md shadow transition hover:bg-blue-700">অ্যাডমিন ড্যাশবোর্ড</a>
             </nav>
         </div>
     </header>
@@ -58,21 +58,24 @@
 
             <!-- Product Grid -->
             <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- Dynamic Products will load here -->
+                <!-- Dynamic Products -->
             </div>
         </section>
 
-        <!-- Admin Dashboard Section (Hidden by default until login) -->
+        <!-- Admin Dashboard Section (Hidden by default) -->
         <section id="adminSection" class="hidden bg-navySecondary text-white p-6 rounded-2xl shadow-xl space-y-6">
             <div class="flex justify-between items-center">
                 <div>
                     <h2 class="text-xl font-black">অ্যাডমিন ড্যাশবোর্ড</h2>
                     <p class="text-xs text-slate-400">প্রোডাক্ট ম্যানেজমেন্ট ও কাস্টমার অর্ডার লিস্ট</p>
                 </div>
-                <button onclick="logoutAdmin()" class="text-xs bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-lg font-bold transition">লগআউট</button>
+                <div class="flex gap-2">
+                    <button onclick="openChangePasswordModal()" class="text-xs bg-amber-600 hover:bg-amber-700 px-3 py-1.5 rounded-lg font-bold transition">পাসওয়ার্ড পরিবর্তন</button>
+                    <button onclick="logoutAdmin()" class="text-xs bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-lg font-bold transition">লগআউট</button>
+                </div>
             </div>
 
-            <!-- Product Upload Box for Admin -->
+            <!-- Product Upload Box for Admin (With Gallery File Upload) -->
             <div class="bg-slate-800 p-5 rounded-xl border border-slate-700">
                 <h3 class="text-base font-bold text-white mb-3">নতুন প্রোডাক্ট যোগ করুন</h3>
                 <form id="productUploadForm" onsubmit="handleProductUpload(event)" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
@@ -85,8 +88,8 @@
                         <input type="number" id="pPrice" placeholder="দাম লিখুন" required class="w-full p-2.5 border border-slate-600 bg-slate-900 rounded-lg text-white">
                     </div>
                     <div>
-                        <label class="block font-bold mb-1 text-slate-300">ছবির লিংক (Image URL)</label>
-                        <input type="text" id="pImage" placeholder="https://..." required class="w-full p-2.5 border border-slate-600 bg-slate-900 rounded-lg text-white">
+                        <label class="block font-bold mb-1 text-slate-300">প্রোডাক্টের ছবি (গ্যালারি থেকে)</label>
+                        <input type="file" id="pImageFile" accept="image/*" required class="w-full text-xs text-slate-300 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 bg-slate-900 border border-slate-600 rounded-lg p-1">
                     </div>
                     <div class="md:col-span-3">
                         <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg transition">প্রোডাক্ট পাবলিশ করুন</button>
@@ -133,19 +136,28 @@
 
     </main>
 
-    <!-- Admin Login Modal -->
-    <div id="adminLoginModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 p-4">
+    <!-- Admin Auth Modal (Dynamic: Setup or Login) -->
+    <div id="adminAuthModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl">
-            <h3 class="text-lg font-black text-navyPrimary mb-2">অ্যাডমিন লগইন</h3>
-            <p class="text-xs text-slate-500 mb-4">ড্যাশবোর্ড এক্সেস করতে পাসওয়ার্ড দিন।</p>
-            <form onsubmit="verifyAdmin(event)" class="space-y-3 text-xs">
+            <h3 id="authModalTitle" class="text-lg font-black text-navyPrimary mb-2">অ্যাডমিন লগইন</h3>
+            <p id="authModalDesc" class="text-xs text-slate-500 mb-4">ড্যাশবোর্ড এক্সেস করতে আপনার পাসওয়ার্ড দিন।</p>
+            
+            <form id="adminAuthForm" onsubmit="handleAdminAuth(event)" class="space-y-3 text-xs">
+                <div id="newPassDiv" class="hidden">
+                    <label class="block font-bold mb-1 text-slate-700">নতুন পাসওয়ার্ড তৈরি করুন</label>
+                    <input type="password" id="setupNewPass" placeholder="নতুন পাসওয়ার্ড দিন" class="w-full p-2.5 border border-slate-300 rounded-lg">
+                </div>
                 <div>
-                    <label class="block font-bold mb-1 text-slate-700">পাসওয়ার্ড</label>
-                    <input type="password" id="adminPasswordInput" placeholder="পাসওয়ার্ড দিন (যেমন: 1234)" required class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <label id="passLabel" class="block font-bold mb-1 text-slate-700">পাসওয়ার্ড</label>
+                    <input type="password" id="adminPasswordInput" placeholder="আপনার পাসওয়ার্ড দিন" required class="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div id="confirmPassDiv" class="hidden">
+                    <label class="block font-bold mb-1 text-slate-700">কনফার্ম পাসওয়ার্ড</label>
+                    <input type="password" id="setupConfirmPass" placeholder="পুনরায় পাসওয়ার্ডটি দিন" class="w-full p-2.5 border border-slate-300 rounded-lg">
                 </div>
                 <div class="flex justify-end space-x-2 pt-2">
-                    <button type="button" onclick="closeAdminLogin()" class="px-3 py-1.5 bg-slate-200 rounded-lg font-bold">বাতিল</button>
-                    <button type="submit" class="px-4 py-1.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700">লগইন</button>
+                    <button type="button" onclick="closeAdminAuth()" class="px-3 py-1.5 bg-slate-200 rounded-lg font-bold">বাতিল</button>
+                    <button type="submit" id="authSubmitBtn" class="px-4 py-1.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700">লগইন</button>
                 </div>
             </form>
         </div>
@@ -202,7 +214,6 @@
     <script>
         let selectedProductForOrder = '';
         let selectedProductPrice = 0;
-        const ADMIN_PASS = "1234"; // আপনার ইচ্ছামতো পাসওয়ার্ড বদলাতে পারেন
 
         let defaultProducts = [
             { id: 1, name: 'Wireless Headphone', price: 2500, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300' },
@@ -261,8 +272,19 @@
             event.preventDefault();
             let name = document.getElementById('pName').value;
             let price = document.getElementById('pPrice').value;
-            let image = document.getElementById('pImage').value;
+            let imageFile = document.getElementById('pImageFile').files[0];
 
+            if(imageFile) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let base64Image = e.target.result;
+                    saveProductToStorage(name, price, base64Image);
+                };
+                reader.readAsDataURL(imageFile);
+            }
+        }
+
+        function saveProductToStorage(name, price, image) {
             let savedProducts = localStorage.getItem('productHub_items');
             let products = savedProducts ? JSON.parse(savedProducts) : defaultProducts;
 
@@ -272,37 +294,98 @@
 
             document.getElementById('productUploadForm').reset();
             loadProducts();
-            alert('নতুন প্রোডাক্ট সফলভাবে যোগ করা হয়েছে!');
+            alert('নতুন প্রোডাক্ট সফলভাবে গ্যালারি থেকে আপলোড ও যোগ করা হয়েছে!');
         }
 
-        function openAdminLogin(event) {
+        function openAdminPortal(event) {
             event.preventDefault();
             if(localStorage.getItem('isAdminLoggedIn') === 'true') {
                 document.getElementById('adminSection').classList.remove('hidden');
                 document.getElementById('adminSection').scrollIntoView({ behavior: 'smooth' });
                 loadOrders();
-            } else {
-                document.getElementById('adminLoginModal').classList.remove('hidden');
+                return;
             }
+
+            let savedPass = localStorage.getItem('productHub_adminPass');
+            let modalTitle = document.getElementById('authModalTitle');
+            let modalDesc = document.getElementById('authModalDesc');
+            let newPassDiv = document.getElementById('newPassDiv');
+            let confirmPassDiv = document.getElementById('confirmPassDiv');
+            let passLabel = document.getElementById('passLabel');
+            let submitBtn = document.getElementById('authSubmitBtn');
+
+            if(!savedPass) {
+                // First time password setup
+                modalTitle.innerText = "অ্যাডমিন পাসওয়ার্ড সেটআপ";
+                modalDesc.innerText = "আপনার সাইটের জন্য একটি স্থায়ী সিক্রেট পাসওয়ার্ড তৈরি করুন।";
+                newPassDiv.classList.add('hidden');
+                confirmPassDiv.classList.remove('hidden');
+                passLabel.innerText = "পাসওয়ার্ড দিন";
+                submitBtn.innerText = "সেট করুন";
+                document.getElementById('adminPasswordInput').placeholder = "নতুন পাসওয়ার্ড দিন";
+            } else {
+                // Regular Login
+                modalTitle.innerText = "অ্যাডমিন লগইন";
+                modalDesc.innerText = "ড্যাশবোর্ড এক্সেস করতে আপনার পাসওয়ার্ড দিন।";
+                newPassDiv.classList.add('hidden');
+                confirmPassDiv.classList.add('hidden');
+                passLabel.innerText = "পাসওয়ার্ড";
+                submitBtn.innerText = "লগইন";
+                document.getElementById('adminPasswordInput').placeholder = "আপনার পাসওয়ার্ড দিন";
+            }
+            document.getElementById('adminAuthModal').classList.remove('hidden');
         }
 
-        function closeAdminLogin() {
-            document.getElementById('adminLoginModal').classList.add('hidden');
+        function closeAdminAuth() {
+            document.getElementById('adminAuthModal').classList.add('hidden');
+            document.getElementById('adminAuthForm').reset();
         }
 
-        function verifyAdmin(event) {
+        function handleAdminAuth(event) {
             event.preventDefault();
-            let pass = document.getElementById('adminPasswordInput').value;
-            if(pass === ADMIN_PASS) {
+            let savedPass = localStorage.getItem('productHub_adminPass');
+            let inputPass = document.getElementById('adminPasswordInput').value;
+
+            if(!savedPass) {
+                let confirmPass = document.getElementById('setupConfirmPass').value;
+                if(inputPass !== confirmPass) {
+                    alert('পাসওয়ার্ড দুটি মিলছে না! আবার চেষ্টা করুন।');
+                    return;
+                }
+                localStorage.setItem('productHub_adminPass', inputPass);
                 localStorage.setItem('isAdminLoggedIn', 'true');
-                closeAdminLogin();
+                closeAdminAuth();
                 document.getElementById('adminSection').classList.remove('hidden');
                 document.getElementById('adminSection').scrollIntoView({ behavior: 'smooth' });
                 loadProducts();
                 loadOrders();
-                alert('অ্যাডমিন প্যানেলে সফলভাবে লগইন হয়েছে!');
+                alert('অ্যাডমিন পাসওয়ার্ড সফলভাবে সেট ও লগইন সম্পন্ন হয়েছে!');
             } else {
-                alert('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।');
+                if(inputPass === savedPass) {
+                    localStorage.setItem('isAdminLoggedIn', 'true');
+                    closeAdminAuth();
+                    document.getElementById('adminSection').classList.remove('hidden');
+                    document.getElementById('adminSection').scrollIntoView({ behavior: 'smooth' });
+                    loadProducts();
+                    loadOrders();
+                    alert('অ্যাডমিন প্যানেলে সফলভাবে লগইন হয়েছে!');
+                } else {
+                    alert('ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।');
+                }
+            }
+        }
+
+        function openChangePasswordModal() {
+            let currentPass = prompt('বর্তমান পাসওয়ার্ড দিন:');
+            let savedPass = localStorage.getItem('productHub_adminPass');
+            if(currentPass === savedPass) {
+                let newPass = prompt('নতুন পাসওয়ার্ড দিন:');
+                if(newPass && newPass.trim() !== "") {
+                    localStorage.setItem('productHub_adminPass', newPass);
+                    alert('পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে!');
+                }
+            } else if(currentPass !== null) {
+                alert('বর্তমান পাসওয়ার্ড ভুল হয়েছে!');
             }
         }
 
