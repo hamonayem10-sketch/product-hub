@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProductHub - প্রোডাক্ট শোকেস ও অর্ডার সিস্টেম</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navyPrimary: '#0f172a',
+                        navySecondary: '#1e293b',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans">
+
+    <!-- Navbar -->
+    <header class="bg-navyPrimary text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wide">ProductHub</h1>
+            <nav class="space-x-4 text-sm">
+                <a href="#home" class="hover:text-blue-400">হোম</a>
+                <a href="#upload" class="hover:text-blue-400">প্রোডাক্ট আপলোড</a>
+                <a href="#admin" class="hover:text-blue-400 bg-blue-600 px-3 py-1.5 rounded-md">অ্যাডমিন ড্যাশবোর্ড</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-6 space-y-10">
+
+        <!-- Home Section / Product Showcase -->
+        <section id="home">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-navyPrimary">সকল প্রোডাক্টসমূহ</h2>
+                <p class="text-sm text-slate-500">আপনার পছন্দের প্রোডাক্টটি বেছে নিন এবং অর্ডার করুন।</p>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Product Card 1 -->
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300" alt="Headphone" class="w-full h-32 object-cover rounded-md mb-2">
+                        <h3 class="font-semibold text-sm text-slate-800">Wireless Headphone</h3>
+                        <p class="text-blue-600 font-bold text-sm mt-1">৳ ২,৫০০</p>
+                    </div>
+                    <button onclick="openOrderModal('Wireless Headphone', 2500)" class="mt-3 w-full bg-navyPrimary text-white text-xs py-2 rounded hover:bg-slate-800 transition">অর্ডার করুন</button>
+                </div>
+                <!-- Product Card 2 -->
+                <div class="bg-white p-3 rounded-lg shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300" alt="Watch" class="w-full h-32 object-cover rounded-md mb-2">
+                        <h3 class="font-semibold text-sm text-slate-800">Smart Watch</h3>
+                        <p class="text-blue-600 font-bold text-sm mt-1">৳ ৩,২০০</p>
+                    </div>
+                    <button onclick="openOrderModal('Smart Watch', 3200)" class="mt-3 w-full bg-navyPrimary text-white text-xs py-2 rounded hover:bg-slate-800 transition">অর্ডার করুন</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Upload Section -->
+        <section id="upload" class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+            <h2 class="text-xl font-bold text-navyPrimary mb-4">নতুন প্রোডাক্ট আপলোড করুন</h2>
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold mb-1">প্রোডাক্টের নাম</label>
+                    <input type="text" placeholder="প্রোডাক্টের নাম লিখুন" class="w-full p-2 text-sm border rounded-md">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">দাম (টাকা)</label>
+                    <input type="number" placeholder="দাম লিখুন" class="w-full p-2 text-sm border rounded-md">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-semibold mb-1">প্রোডাক্টের ছবি আপলোড করুন</label>
+                    <input type="file" class="w-full text-sm border rounded-md p-1">
+                </div>
+                <div>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 text-sm rounded-md hover:bg-blue-700 transition">আপলোড করুন</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Admin Dashboard Section -->
+        <section id="admin" class="bg-navySecondary text-white p-6 rounded-lg shadow-md">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold">অ্যাডমিন ড্যাশবোর্ড</h2>
+                <span class="text-xs bg-blue-600 px-2 py-1 rounded">অ্যাক্টিভ</span>
+            </div>
+
+            <!-- Analytics Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-slate-800 p-4 rounded-md border border-slate-700">
+                    <p class="text-xs text-slate-400">মোট ভিজিটর</p>
+                    <h3 class="text-xl font-bold mt-1">১২,৪৫০</h3>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-md border border-slate-700">
+                    <p class="text-xs text-slate-400">রেজিস্টার্ড ইউজার</p>
+                    <h3 class="text-xl font-bold mt-1">৮৫০</h3>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-md border border-slate-700">
+                    <p class="text-xs text-slate-400">মোট প্রোডাক্ট</p>
+                    <h3 class="text-xl font-bold mt-1">৪৫</h3>
+                </div>
+                <div class="bg-slate-800 p-4 rounded-md border border-slate-700">
+                    <p class="text-xs text-slate-400">নতুন অর্ডার</p>
+                    <h3 class="text-xl font-bold mt-1 text-blue-400">১২</h3>
+                </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="bg-slate-800 rounded-md p-4 overflow-x-auto border border-slate-700">
+                <h3 class="font-semibold mb-3 text-sm">সাম্প্রতিক অর্ডার ও পেমেন্ট স্ট্যাটাস</h3>
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-slate-400">
+                            <th class="pb-2">গ্রাহকের নাম</th>
+                            <th class="pb-2">প্রোডাক্ট</th>
+                            <th class="pb-2">লোকেশন</th>
+                            <th class="pb-2">ডেলিভারি চার্জ</th>
+                            <th class="pb-2">TrxID (বিকাশ/নগদ)</th>
+                            <th class="pb-2">স্ট্যাটাস</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700">
+                        <tr>
+                            <td class="py-2">রহিম উদ্দিন</td>
+                            <td class="py-2">Wireless Headphone</td>
+                            <td class="py-2">ঢাকার ভেতরে (৳১০০)</td>
+                            <td class="py-2 text-green-400">পরিশোধিত</td>
+                            <td class="py-2 font-mono">9K78X21L</td>
+                            <td class="py-2"><span class="bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded">পেন্ডিং</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Order Modal (Popup) -->
+    <div id="orderModal" class="hidden fixed inset-0 bg-black/60 flex justify-center items-center z-50 p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-6 relative">
+            <h3 class="text-lg font-bold text-navyPrimary mb-2" id="modalProductName">অর্ডার কনফার্ম করুন</h3>
+            <p class="text-xs text-slate-500 mb-4">ডেলিভারি চার্জ বিকাশ বা নগদে আগে পেমেন্ট করতে হবে।</p>
+            
+            <div class="bg-blue-50 border border-blue-200 p-3 rounded text-xs mb-4 space-y-1">
+                <p class="font-bold text-blue-900">আমাদের পেমেন্ট নম্বর (বিকাশ ও নগদ):</p>
+                <p class="font-mono text-blue-700 font-bold text-sm">01829236481 (Personal)</p>
+                <p class="text-slate-600">* ঢাকার ভেতরে চার্জ: ১০০ টাকা | ঢাকার বাইরে: ১৫০ টাকা</p>
+            </div>
+
+            <form class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold mb-1">আপনার নাম</label>
+                    <input type="text" placeholder="পুরো নাম লিখুন" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">মোবাইল নম্বর</label>
+                    <input type="text" placeholder="যে নম্বর থেকে টাকা পাঠিয়েছেন" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">ডেলিভারি এলাকা</label>
+                    <select id="locationSelect" onchange="updateDeliveryCharge()" class="w-full p-2 border rounded">
+                        <option value="100">ঢাকার ভেতরে (১০০ টাকা)</option>
+                        <option value="150">ঢাকার বাইরে (১৫০ টাকা)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">পূর্ণাঙ্গ ঠিকানা</label>
+                    <textarea placeholder="বাসা/রোড, থানা, জেলা" class="w-full p-2 border rounded" rows="2"></textarea>
+                </div>
+                <div>
+                    <label class="block font-semibold mb-1">বিকাশ/নগদ TrxID (ট্রানজ্যাকশন আইডি)</label>
+                    <input type="text" placeholder="যেমন: 8N79... " class="w-full p-2 border rounded font-mono">
+                </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeOrderModal()" class="px-3 py-1.5 bg-slate-300 rounded">বাতিল</button>
+                    <button type="submit" class="px-4 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700">অর্ডার সাবমিট করুন</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        function openOrderModal(productName, price) {
+            document.getElementById('modalProductName').innerText = productName + ' - অর্ডার করুন';
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
