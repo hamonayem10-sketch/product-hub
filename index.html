@@ -203,7 +203,6 @@
 
     <!-- Script -->
     <script>
-        // আপনার দেওয়া নির্দিষ্ট মাস্টার পাসওয়ার্ড
         const MASTER_ADMIN_PASS = "0182923";
 
         let selectedProductForOrder = '';
@@ -284,11 +283,13 @@
 
             let newId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
             products.push({ id: newId, name, price, image });
+            
+            // ডাটা লোকালস্টোরেজে সংরক্ষণ করা হচ্ছে
             localStorage.setItem('productHub_items', JSON.stringify(products));
 
             document.getElementById('productUploadForm').reset();
             loadProducts();
-            alert('নতুন প্রোডাক্ট সফলভাবে গ্যালারি থেকে আপলোড ও যোগ করা হয়েছে!');
+            alert('নতুন প্রোডাক্ট সফলভাবে আপলোড ও যোগ করা হয়েছে!');
         }
 
         function openAdminPortal(event) {
