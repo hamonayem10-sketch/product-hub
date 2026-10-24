@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProductHub - প্রিমিয়াম প্রোডাক্ট শোকেস ও অর্ডার সিস্টেম</title>
+    <title>অনলাইন শপিং - প্রিমিয়াম প্রোডাক্ট শোকেস ও অর্ডার সিস্টেম</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -37,7 +37,7 @@
     <header class="bg-navyPrimary text-white shadow-lg sticky top-0 z-50 backdrop-blur-md bg-opacity-95">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <h1 class="text-xl font-extrabold tracking-wide flex items-center gap-2">
-                <span class="bg-blue-600 text-white p-1 rounded-md text-sm">PH</span> ProductHub
+                <span class="bg-blue-600 text-white p-1 rounded-md text-sm">OS</span> অনলাইন শপিং
             </h1>
             <nav class="space-x-3 md:space-x-4 text-sm font-medium">
                 <a href="#home" class="hover:text-blue-400 transition">হোম</a>
@@ -94,20 +94,36 @@
                         <textarea id="cust-address" placeholder="বাসা/হোল্ডিং, রোড, থানা, জেলা সহ বিস্তারিত ঠিকানা লিখুন" rows="2" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"></textarea>
                     </div>
 
-                    <div class="bg-blue-50 p-3 rounded-lg border border-blue-200 text-xs text-blue-900 space-y-1">
-                        <p class="font-bold">⚠️ বিকাশ অথবা নগদে ডেলিভারি চার্জ আগে পেমেন্ট করুন:</p>
-                        <p>টাকা পাঠান (বিকাশ/নগদ Personal): <span class="font-bold text-blue-700 text-sm">01829236481</span></p>
-                        <p id="charge-text" class="font-semibold text-red-600">ডেলিভারি চার্জ: ১০০ টাকা</p>
+                    <!-- Payment Method Selection -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">পেমেন্ট পদ্ধতি</label>
+                        <select id="cust-payment-method" onchange="togglePaymentFields()" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white font-medium text-blue-700">
+                            <option value="cod">ক্যাশ অন ডেলিভারি (Cash on Delivery)</option>
+                            <option value="advance">বিকাশ / নগদ পেমেন্ট</option>
+                        </select>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">যে নাম্বারে টাকা পাঠিয়েছেন</label>
-                            <input type="text" id="cust-sender-num" placeholder="আপনার বিকাশ/নগদ নাম্বার" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">ট্রানজেকশন আইডি (TrxID)</label>
-                            <input type="text" id="cust-trxid" placeholder="যেমন: 9H87G6F5" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+                    <!-- COD Warning Box -->
+                    <div id="cod-warning-box" class="bg-amber-50 p-3 rounded-lg border border-amber-300 text-xs text-amber-900 space-y-1">
+                        <p class="font-bold">⚠️ গুরুত্বপূর্ণ বার্তা:</p>
+                        <p>ভাইয়া, যদি অর্ডার রিসিভ না করেন তাহলে দয়া করে শুধু শুধু অর্ডার দিয়েন না। ভালো করে বুঝে শুনে তারপর অর্ডার করুন; কারণ অর্ডার রিসিভ না করলে ডেলিভারি চার্জ আমাদের পকেট থেকে দেওয়া লাগে। আপনি যদি ১০০% কনফার্ম হন, কেবল তখনই অর্ডারটি সাবমিট করুন। ধন্যবাদ!</p>
+                    </div>
+
+                    <!-- Advance Payment Fields (Hidden by default) -->
+                    <div id="advance-payment-box" class="bg-blue-50 p-3 rounded-lg border border-blue-200 text-xs text-blue-900 space-y-2 hidden">
+                        <p class="font-bold">⚠️ বিকাশ অথবা নগদে ডেলিভারি চার্জ আগে পেমেন্ট করতে চাইলে:</p>
+                        <p>টাকা পাঠান (বিকাশ/নগদ Personal): <span class="font-bold text-blue-700 text-sm">01829236481</span></p>
+                        <p id="charge-text" class="font-semibold text-red-600">ডেলিভারি চার্জ: ১০০ টাকা</p>
+                        
+                        <div class="grid grid-cols-2 gap-2 pt-1">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">যে নাম্বারে টাকা পাঠিয়েছেন</label>
+                                <input type="text" id="cust-sender-num" placeholder="আপনার বিকাশ/নগদ নাম্বার" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">ট্রানজেকশন আইডি (TrxID)</label>
+                                <input type="text" id="cust-trxid" placeholder="যেমন: 9H87G6F5" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+                            </div>
                         </div>
                     </div>
 
@@ -116,9 +132,50 @@
             </div>
         </div>
 
+        <!-- Review Modal (For Customers to Give Review) -->
+        <div id="review-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4">
+            <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 space-y-4 relative max-h-[90vh] overflow-y-auto">
+                <button onclick="closeReviewModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+                
+                <h3 class="text-xl font-bold text-navyPrimary">প্রোডাক্ট রিভিউ দিন</h3>
+                <div id="review-product-summary" class="bg-slate-50 p-3 rounded-lg border text-sm"></div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">আপনার নাম</label>
+                        <input type="text" id="rev-name" placeholder="আপনার নাম লিখুন" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">রেটিং</label>
+                        <select id="rev-rating" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white">
+                            <option value="5">⭐⭐⭐⭐⭐ (৫ স্টার - চমৎকার)</option>
+                            <option value="4">⭐⭐⭐⭐ (৪ স্টার - ভালো)</option>
+                            <option value="3">⭐⭐⭐ (৩ স্টার - মোটামুটি)</option>
+                            <option value="2">⭐⭐ (২ স্টার - খারাপ)</option>
+                            <option value="1">⭐ (১ স্টার - খুব খারাপ)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">আপনার মন্তব্য / রিভিউ</label>
+                        <textarea id="rev-comment" placeholder="পণ্যটি হাতে পাওয়ার পর আপনার অভিজ্ঞতা কেমন হলো লিখুন..." rows="3" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">প্রোডাক্ট হাতে পাওয়ার ছবি আপলোড করুন</label>
+                        <div class="flex gap-2 items-center">
+                            <input type="text" id="rev-img-text" placeholder="ছবির ফাইল সিলেক্ট করুন" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white" readonly>
+                            <label class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-2.5 rounded-lg cursor-pointer whitespace-nowrap">
+                                ছবি নিন <input type="file" id="review-file-input" accept="image/*" class="hidden" onchange="handleReviewImageUpload(event)">
+                            </label>
+                        </div>
+                    </div>
+                    <button onclick="submitReview()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-bold text-sm transition">রিভিউ জমা দিন</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Admin Modal / Portal (Hidden by default) -->
         <div id="admin-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4">
-            <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full p-6 space-y-4 relative max-h-[90vh] overflow-y-auto">
+            <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full p-6 space-y-4 relative max-h-[90vh] overflow-y-auto">
                 <button onclick="closeAdminPortal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
                 
                 <h3 id="admin-modal-title" class="text-xl font-bold text-navyPrimary">অ্যাডমিন লগইন</h3>
@@ -135,7 +192,7 @@
                     <div class="flex justify-between items-center bg-slate-900 text-white p-3 rounded-lg">
                         <div>
                             <h4 class="font-bold text-sm">অ্যাডমিন ড্যাশবোর্ড</h4>
-                            <p class="text-xs text-slate-400">রিয়েলটাইম প্রোডাক্ট ও কাস্টমার অর্ডার ম্যানেজমেন্ট</p>
+                            <p class="text-xs text-slate-400">রিয়েলটাইম প্রোডাক্ট, অর্ডার ও রিভিউ ম্যানেজমেন্ট</p>
                         </div>
                         <button onclick="logoutAdmin()" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs transition">লগআউট</button>
                     </div>
@@ -188,7 +245,7 @@
                                         <th class="p-2 border">প্রোডাক্ট</th>
                                         <th class="p-2 border">গ্রাহকের নাম ও ফোন</th>
                                         <th class="p-2 border">এলাকা ও পূর্ণ ঠিকানা</th>
-                                        <th class="p-2 border">পেমেন্ট ইনফো (TrxID & Number)</th>
+                                        <th class="p-2 border">পেমেন্ট মেথড ও তথ্য</th>
                                         <th class="p-2 border text-center">অ্যাকশন</th>
                                     </tr>
                                 </thead>
@@ -222,9 +279,12 @@
         }
         const db = firebase.firestore();
 
-        const MASTER_PASS = "0182923";
+        const MASTER_PASS = "@monayem@@";
         let uploadedImageBase64 = "";
+        let reviewImageBase64 = "";
         let selectedProductForOrder = null;
+        let selectedProductForReview = null;
+        let globalReviews = [];
 
         function handleImageUpload(event) {
             const file = event.target.files[0];
@@ -238,7 +298,28 @@
             }
         }
 
-        // রিয়েল-টাইমে ফায়ারস্টোর থেকে প্রোডাক্ট এবং অর্ডার লোড করা
+        function handleReviewImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    reviewImageBase64 = e.target.result;
+                    document.getElementById("rev-img-text").value = "রিভিউ ছবি সিলেক্ট করা হয়েছে ✅";
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // রিয়েল-টাইমে রিভিউ লোড করা
+        db.collection("reviews").onSnapshot((snapshot) => {
+            globalReviews = [];
+            snapshot.forEach((doc) => {
+                globalReviews.push({ id: doc.id, ...doc.data() });
+            });
+            // রিভিউ লোড হওয়ার পর প্রোডাক্ট গ্রিড রিফ্রেশ করতে ফায়ারস্টোর প্রোডাক্ট স্ন্যাপশট ট্রিগার হবে বা রেন্ডার হবে
+        });
+
+        // রিয়েল-টাইমে ফায়ারস্টোর থেকে প্রোডাক্ট লোড করা
         db.collection("products").onSnapshot((snapshot) => {
             const grid = document.getElementById("product-grid");
             const adminList = document.getElementById("admin-product-list");
@@ -265,6 +346,31 @@
             products.forEach(p => {
                 let imgSource = p.image || 'https://via.placeholder.com/150';
 
+                // এই প্রোডাক্টের রিভিউ ফিল্টার করা
+                let prodReviews = globalReviews.filter(r => r.productId === p.id);
+                let reviewsHtml = "";
+                
+                if(prodReviews.length > 0) {
+                    reviewsHtml += `<div class="mt-3 pt-3 border-t space-y-2 max-h-40 overflow-y-auto"><p class="text-[11px] font-bold text-slate-700">গ্রাহকদের রিভিউ (${prodReviews.length}):</p>`;
+                    prodReviews.forEach(r => {
+                        let stars = "⭐".repeat(Number(r.rating) || 5);
+                        let rImg = r.image ? `<img src="${r.image}" class="w-12 h-12 object-cover rounded mt-1 border">` : "";
+                        reviewsHtml += `
+                            <div class="bg-slate-50 p-2 rounded text-[11px] border">
+                                <div class="flex justify-between font-bold text-slate-800">
+                                    <span>${r.name}</span>
+                                    <span class="text-amber-500">${stars}</span>
+                                </div>
+                                <p class="text-slate-600 mt-0.5">${r.comment}</p>
+                                ${rImg}
+                            </div>
+                        `;
+                    });
+                    reviewsHtml += `</div>`;
+                } else {
+                    reviewsHtml += `<p class="text-[10px] text-slate-400 mt-2 text-center">এখনো কোনো রিভিউ নেই</p>`;
+                }
+
                 // ইউজার হোমপেজ কার্ড
                 grid.innerHTML += `
                     <div class="bg-white rounded-lg shadow daraz-card p-3 flex flex-col justify-between">
@@ -272,9 +378,11 @@
                             <img src="${imgSource}" alt="${p.name}" class="w-full h-40 object-cover rounded-md mb-3 bg-slate-100">
                             <h3 class="font-semibold text-sm text-slate-800 line-clamp-2">${p.name}</h3>
                         </div>
-                        <div class="mt-3">
-                            <p class="text-blue-600 font-bold text-base mb-2">${p.price}</p>
+                        <div class="mt-3 space-y-2">
+                            <p class="text-blue-600 font-bold text-base">${p.price}</p>
                             <button onclick='openOrderModal(${JSON.stringify(p)})' class="w-full bg-navyPrimary hover:bg-blue-600 text-white text-xs font-bold py-2 rounded transition">অর্ডার করুন</button>
+                            <button onclick='openReviewModal(${JSON.stringify(p)})' class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 text-[11px] font-bold py-1.5 rounded transition">রিভিউ দিন</button>
+                            ${reviewsHtml}
                         </div>
                     </div>
                 `;
@@ -309,13 +417,20 @@
 
             orders.forEach(o => {
                 let timeStr = o.createdAt ? new Date(o.createdAt.seconds * 1000).toLocaleString() : "খুব সম্প্রতি";
+                let paymentInfoHtml = "";
+                if(o.paymentMethod === 'cod') {
+                    paymentInfoHtml = `<span class="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold">ক্যাশ অন ডেলিভারি (COD)</span>`;
+                } else {
+                    paymentInfoHtml = `<span class="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded font-bold">বিকাশ/নগদ পেমেন্ট</span><br>নাম্বার: ${o.senderNumber || 'প্রদান করা হয়নি'}<br>TrxID: <strong class="text-emerald-600">${o.trxId || 'প্রদান করা হয়নি'}</strong>`;
+                }
+
                 ordersList.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
                         <td class="p-2 border text-slate-500">${timeStr}</td>
                         <td class="p-2 border font-semibold text-slate-800">${o.productName} <br><span class="text-blue-600">${o.productPrice}</span></td>
                         <td class="p-2 border font-medium">${o.customerName} <br><span class="text-slate-500">${o.customerPhone}</span></td>
                         <td class="p-2 border"><span class="bg-slate-200 px-1.5 py-0.5 rounded text-[10px] font-bold">${o.locationType === 'inside' ? 'ঢাকার ভেতরে' : 'ঢাকার বাইরে'}</span><br>${o.customerAddress}</td>
-                        <td class="p-2 border font-mono">নাম্বার: ${o.senderNumber}<br>TrxID: <strong class="text-emerald-600">${o.trxId}</strong></td>
+                        <td class="p-2 border font-mono text-[11px]">${paymentInfoHtml}</td>
                         <td class="p-2 border text-center">
                             <button onclick="deleteOrder('${o.id}')" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-[10px]">রিমুভ</button>
                         </td>
@@ -332,6 +447,8 @@
                 <strong>মূল্য:</strong> <span class="text-blue-600 font-bold">${product.price}</span>
             `;
             document.getElementById("order-modal").classList.remove("hidden");
+            document.getElementById("cust-payment-method").value = "cod";
+            togglePaymentFields();
             updateDeliveryCharge();
         }
 
@@ -342,6 +459,38 @@
             document.getElementById("cust-address").value = "";
             document.getElementById("cust-sender-num").value = "";
             document.getElementById("cust-trxid").value = "";
+        }
+
+        // রিভিউ মোডাল ওপেন/ক্লোজ
+        function openReviewModal(product) {
+            selectedProductForReview = product;
+            document.getElementById("review-product-summary").innerHTML = `
+                <strong>প্রোডাক্ট:</strong> ${product.name} <br>
+                <strong>মূল্য:</strong> <span class="text-blue-600 font-bold">${product.price}</span>
+            `;
+            document.getElementById("review-modal").classList.remove("hidden");
+            document.getElementById("rev-name").value = "";
+            document.getElementById("rev-comment").value = "";
+            document.getElementById("rev-img-text").value = "";
+            reviewImageBase64 = "";
+        }
+
+        function closeReviewModal() {
+            document.getElementById("review-modal").classList.add("hidden");
+        }
+
+        function togglePaymentFields() {
+            const method = document.getElementById("cust-payment-method").value;
+            const codBox = document.getElementById("cod-warning-box");
+            const advanceBox = document.getElementById("advance-payment-box");
+
+            if(method === 'cod') {
+                codBox.classList.remove("hidden");
+                advanceBox.classList.add("hidden");
+            } else {
+                codBox.classList.add("hidden");
+                advanceBox.classList.remove("hidden");
+            }
         }
 
         function updateDeliveryCharge() {
@@ -360,11 +509,17 @@
             const phone = document.getElementById("cust-phone").value.trim();
             const locationType = document.getElementById("cust-location-type").value;
             const address = document.getElementById("cust-address").value.trim();
+            const paymentMethod = document.getElementById("cust-payment-method").value;
             const senderNumber = document.getElementById("cust-sender-num").value.trim();
             const trxId = document.getElementById("cust-trxid").value.trim();
 
-            if(!name || !phone || !address || !senderNumber || !trxId) {
-                alert("দয়া করে সব তথ্য (নাম, নাম্বার, পূর্ণ ঠিকানা, বিকাশ/নগদ নাম্বার ও TrxID) সঠিকভাবে পূরণ করুন!");
+            if(!name || !phone || !address) {
+                alert("দয়া করে আপনার নাম, মোবাইল নাম্বার এবং পূর্ণ ঠিকানা সঠিকভাবে পূরণ করুন!");
+                return;
+            }
+
+            if(paymentMethod === 'advance' && (!senderNumber || !trxId)) {
+                alert("দয়া করে বিকাশ/নগদ নাম্বার এবং ট্রানজেকশন আইডি (TrxID) প্রদান করুন!");
                 return;
             }
 
@@ -375,8 +530,9 @@
                 customerPhone: phone,
                 locationType: locationType,
                 customerAddress: address,
-                senderNumber: senderNumber,
-                trxId: trxId,
+                paymentMethod: paymentMethod,
+                senderNumber: senderNumber || "N/A (COD)",
+                trxId: trxId || "N/A (COD)",
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             })
             .then(() => {
@@ -386,6 +542,36 @@
             .catch((error) => {
                 console.error("Order Error: ", error);
                 alert("অর্ডার সাবমিট করার সময় সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+            });
+        }
+
+        // রিভিউ সাবমিট করা
+        function submitReview() {
+            const name = document.getElementById("rev-name").value.trim();
+            const rating = document.getElementById("rev-rating").value;
+            const comment = document.getElementById("rev-comment").value.trim();
+
+            if(!name || !comment) {
+                alert("দয়া করে আপনার নাম এবং মন্তব্য লিখুন!");
+                return;
+            }
+
+            db.collection("reviews").add({
+                productId: selectedProductForReview.id,
+                productName: selectedProductForReview.name,
+                name: name,
+                rating: rating,
+                comment: comment,
+                image: reviewImageBase64,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                alert("আপনার রিভিউটি সফলভাবে জমা হয়েছে! ধন্যবাদ।");
+                closeReviewModal();
+            })
+            .catch((error) => {
+                console.error("Review Error: ", error);
+                alert("রিভিউ জমা দেওয়ার সময় সমস্যা হয়েছে। আবার চেষ্টা করুন।");
             });
         }
 
